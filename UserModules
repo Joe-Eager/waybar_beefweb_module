@@ -10,5 +10,5 @@
         "return-type": "json",
         "interval": 5,
         "signal": 10
-}
+    }
 }
