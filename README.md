@@ -4,7 +4,7 @@ a now playing beefweb interface for waybar
 ## Instructions
 This is a script that displays now playing in the waybar. You need a music player that runs a BeefWeb server.
 This code also includes credentials you can change as needed:
-```
+```bash
 # Credentials
 USERNAME="beefyDude"
 PASSWORD="beefyPassword"
@@ -13,7 +13,7 @@ PASSWORD="beefyPassword"
 CREDENTIALS=$(echo -n "$USERNAME:$PASSWORD" | base64)
 ```
 To add it to the waybar you need to make a UserModules, e.x.:
-```
+```jsonc
 "custom/foobar2000": {
   "exec": "$HOME/.config/waybar/now_playing.sh",
   "return-type": "json",
@@ -21,7 +21,7 @@ To add it to the waybar you need to make a UserModules, e.x.:
 }
 ```
 Then add that to whatever config you want, e.x.:
-```
+```jsonc
 "modules-left": [
   "custom/foobar2000"
 ]
