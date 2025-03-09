@@ -10,9 +10,18 @@ PASSWORD="beefyPassword"
 # Encode credentials to base64
 CREDENTIALS=$(echo -n "$USERNAME:$PASSWORD" | base64)
 
-# Function to escape special characters for JSON
-escape_json() {
-    echo -n "$1" | jq -R -s -r -c '.'
+# Function to truncate text and escape special characters for JSON
+process_text() {
+    local text="$1"
+    local max_length=28 # Adjust this value as needed
+
+    # Truncate the text if it exceeds the maximum length
+    if [ ${#text} -gt $max_length ]; then
+        text="${text:0:$max_length}..."
+    fi
+
+    # Escape special characters for JSON
+    echo -n "$text" | jq -R -s -r -c '.'
 }
 
 # Function to get now playing information
@@ -34,8 +43,8 @@ get_now_playing() {
     title=$(echo "$response" | jq -r '.player.activeItem.columns[1]')
 
     # Escape special characters
-    artist=$(escape_json "$artist")
-    title=$(escape_json "$title")
+    artist=$(process_text "$artist")
+    title=$(process_text "$title")
 
     if [ "$playback_state" = "playing" ]; then
 
