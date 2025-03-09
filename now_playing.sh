@@ -41,16 +41,16 @@ get_now_playing() {
 
         # Check if artist and title are valid
         if [ -n "$artist" ] && [ -n "$title" ]; then
-            colored_text="<span color='#9ccc00'>$title</span> - <span color='#628000'>$artist</span> \u25B6"
+            colored_text="\u25B6 <span color='#9ccc00'>$title</span> - <span color='#628000'>$artist</span>"
             echo "{\"text\": \"$colored_text\"}"
         else
             echo '{"text": "Error: Unable to retrieve track information"}'
         fi
     elif [ "$playback_state" = "paused" ]; then
-        colored_text="<span color='#9ccc00'>$title</span> - <span color='#628000'>$artist</span> \u23F8"
+        colored_text=" \u23F8 <span color='#9ccc00'>$title</span> - <span color='#628000'>$artist</span>"
         echo "{\"text\": \"$colored_text\"}"
     elif [ "$playback_state" = "stopped" ]; then
-        echo "{\"text\": \"\u23F9\", \"class\": \"stopped\"}"
+        echo "{\"text\": \"\u23F9 - foobar2000\", \"class\": \"stopped\"}"
     else
         echo "{\"text\": \"No track is currently playing\", \"class\": \"not-playing\"}"
     fi
