@@ -13,14 +13,25 @@ CREDENTIALS=$(echo -n "$USERNAME:$PASSWORD" | base64)
 # Function to truncate text and escape special characters for JSON
 process_text() {
     local text="$1"
-    local max_length=28 # Adjust this value as needed
+    local max_length=42 # Adjust this value as needed
 
     # Truncate the text if it exceeds the maximum length
     if [ ${#text} -gt $max_length ]; then
         text="${text:0:$max_length}..."
     fi
 
-    # Escape special characters for JSON
+    # Replace troublesome Pango characters with their Unicode equivalents
+    text=$(echo "$text" | sed -E '
+        s/&/\\uFF06/g;
+        s/</\\uFF1C/g;
+        s/>/\\uFF1E/g;
+        s/"/\\u201C/g;
+        s/'"'"'/\\u2018/g;
+        s/`/\\u2018/g;
+        s/-/\\u2013/g
+    ')
+
+    # Output the processed text as JSON
     echo -n "$text" | jq -R -s -r -c '.'
 }
 
